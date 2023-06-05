@@ -4,7 +4,7 @@ import random
 from interruptingcow import timeout
 
 
-dir = "tasks_for_rabbitmq/data/"
+dir = f"{os.getcwd()}/tasks_for_rabbitmq/data/"
 time_out = 5
 working_time = 120
 

@@ -2,14 +2,12 @@ import os
 import json
 import pika
 import time
-from interruptingcow import timeout
 
 
 host = 'localhost'
 queue = 'generate_files'
-dir = 'tasks_for_rabbitmq/data'
+dir = f"{os.getcwd()}/tasks_for_rabbitmq/data"
 time_out = 15
-working_time = 135
 
 
 def rmq_send_message(message):
@@ -33,11 +31,13 @@ def rmq_send_message(message):
 def publisher():
     if not os.path.exists(dir):
         os.makedirs(dir)
-    try:
-        with timeout(working_time, exception=RuntimeError):
-            while True:
-                time.sleep(time_out)
-                message = json.dumps(os.listdir(dir))
-                rmq_send_message(message)
-    except RuntimeError:
-        pass
+
+    message_id = 0
+    while True:
+        time.sleep(time_out)
+        message_id += 1
+        message = json.dumps(
+            {'files': os.listdir(dir),
+            'message_id': message_id}
+        )
+        rmq_send_message(message)

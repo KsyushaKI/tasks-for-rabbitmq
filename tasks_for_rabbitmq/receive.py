@@ -5,8 +5,8 @@ import time
 
 host = 'localhost'
 queue = 'generate_files'
-dir = 'tasks_for_rabbitmq/data/'
-result_dir = 'tasks_for_rabbitmq/result/'
+dir = f"{os.getcwd()}/tasks_for_rabbitmq/data/"
+result_dir = f"{os.getcwd()}/tasks_for_rabbitmq/result/"
 timeout = 35
 
 
@@ -25,14 +25,14 @@ def rmq_receiver_messages():
 
 def callback(ch, method, properties, body):
     files = json.loads(body)
-    filename = str(method.delivery_tag) + '.txt'
+    filename = str(files['message_id']) + '.txt'
     print(" [x] Received %r" % body)
 
     if not os.path.exists(result_dir):
         os.makedirs(result_dir)
 
     with open(result_dir + filename, 'w') as f:
-        for file in files:
+        for file in files['files']:
             if os.path.exists(dir + file):
                 with open(dir + file) as f2:
                     content = f2.read()
