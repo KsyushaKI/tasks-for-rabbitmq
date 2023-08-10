@@ -31,6 +31,7 @@ CLI app that demonstrates an example of working with RabbitMQ. Tasks for RabbitM
  [x] Received b'{"files": [], "message_id": 10}'
  [x] Done
 ^CInterrupted
+```
 
 ### Built With
 
