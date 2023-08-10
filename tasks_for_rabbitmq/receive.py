@@ -23,7 +23,7 @@ def rmq_receiver_messages():
     connection.close()
 
 
-def callback(ch, method, properties, body):
+def callback(ch, method, body):
     files = json.loads(body)
     filename = str(files['message_id']) + '.txt'
     print(" [x] Received %r" % body)

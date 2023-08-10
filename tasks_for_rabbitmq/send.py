@@ -38,6 +38,6 @@ def publisher():
         message_id += 1
         message = json.dumps(
             {'files': os.listdir(dir),
-            'message_id': message_id}
+             'message_id': message_id}
         )
         rmq_send_message(message)
